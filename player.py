@@ -1,13 +1,10 @@
-import time
 import pygame
+from ball import Ball
 
-class Player:
+class Player(Ball):
     PLAYER_RADIUS = 20
     def __init__(self, display, color, x, y):
-        self.display = display
-        self.color = color
-        self.x = x
-        self.y = y
+        super().__init__(display, color, x, y)
         self.clicked = False
 
     def draw(self):
