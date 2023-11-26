@@ -20,8 +20,8 @@ running = True
 aiming = False
 
 board = Board(BOARD_COLOR, BOARD_WIDTH, BOARD_HEIGHT, WIDTH, HEIGHT, DISPLAY)
-player = Player(DISPLAY, player_color, player_x, player_y)
-targets = [Target(DISPLAY, target_color, target_x, target_y) for target_color in range(1000, 16000, 1000)]
+player = Player(DISPLAY, BOARD_WIDTH, BOARD_HEIGHT, player_color, player_x, player_y)
+targets = [Target(DISPLAY, BOARD_WIDTH, BOARD_HEIGHT, target_color, target_x, target_y) for target_color in range(1000, 15000, 1000)]
 
 
 while running:
@@ -29,16 +29,18 @@ while running:
     DISPLAY.fill(BG_COLOR)
     board.draw()
     player.draw()
+    for target in targets:
+        target.draw()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            print(pygame.mouse.get_pos())
-            if DISPLAY.get_at(pygame.mouse.get_pos()) == player.color:
-                aiming = True
-            elif event.type == pygame.K_SPACE:
-                aiming = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN and DISPLAY.get_at(pygame.mouse.get_pos()) == player.color:
+            aiming = True
+        else:
+            aiming = False
+        
 
     if aiming:
         pygame.draw.line(DISPLAY, "black", (player.x, player.y), (pygame.mouse.get_pos()), 5)
